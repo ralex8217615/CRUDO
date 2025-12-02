@@ -1,46 +1,101 @@
 body {
     font-family: Arial;
-    background: #0f0f0f;
+    background: #0d0d1a;
     color: white;
-    padding: 40px;
+    text-align: center;
 }
 
-.card {
-    background: #7B2CBF;
-    padding: 20px;
-    border-radius: 15px;
-    width: 400px;
+h1 {
+    color: #a970ff;
+}
+
+table {
     margin: auto;
-    animation: fadeIn .5s ease;
+    width: 80%;
+    border-collapse: collapse;
 }
 
-input, textarea {
-    width: 100%;
+table tr {
+    background: #1c1c2e;
+}
+
+table td, table th {
     padding: 12px;
+    border: 1px solid #333;
+}
+
+.btn, .btn-edit, .btn-delete {
+    padding: 8px 15px;
+    border-radius: 6px;
+    color: white;
+    text-decoration: none;
+}
+
+.btn {
+    background: #5b3fd7;
+    display: inline-block;
+    margin-bottom: 25px;   /* 🔥 Esto crea el espacio debajo del botón */
+    padding: 10px 18px;
+    border-radius: 8px;
+}
+
+
+.btn-edit {
+    background: #0077ff;
+}
+
+.btn-delete {
+    background: #d72323;
+}
+
+/* CONTENEDOR PRINCIPAL */
+.container {
+    max-width: 420px;
+    margin: 60px auto;
+    padding: 30px 25px;
+    background: #1b1b2f;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.45);
+}
+
+/* TITULO */
+.container h1 {
+    color: #b085ff;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 28px;
+}
+
+/* FORM */
+.form-box {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* INPUT Y TEXTAREA CENTRADOS */
+.input,
+.textarea {
+    width: 92%;               /* 🔥 Reduce el ancho para dar espacio a los lados */
+    margin: 0 auto;           /* 🔥 Centra los inputs */
+    display: block;           /* 🔥 Necesario para el centrado */
+    padding: 14px;
     border-radius: 10px;
     border: none;
-    margin-top: 10px;
-}
-
-button {
-    width: 100%;
-    background: #4F8BF9;
-    padding: 12px;
-    border: none;
+    background: #111a3a;
     color: white;
-    font-size: 18px;
-    border-radius: 12px;
-    margin-top: 15px;
-    cursor: pointer;
-    transition: .3s;
+    font-size: 15px;
+    outline: none;
+    transition: 0.25s;
 }
 
-button:hover {
-    background: #356ac2;
-    transform: scale(1.05);
+.textarea {
+    min-height: 110px;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
+/* EFECTO FOCUS */
+.input:focus,
+.textarea:focus {
+    background: #15204a;
+    box-shadow: 0 0 8px #6d4cff7a;
 }

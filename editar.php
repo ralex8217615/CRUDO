@@ -2,7 +2,8 @@
 include "conexion.php";
 
 // Obtener ID
-$id = $_GET['id'] ?? null;
+$id = $_GET["id"] ?? null;
+
 if (!$id) {
     die("ID no válido");
 }
@@ -16,61 +17,55 @@ $tarea = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$tarea) {
     die("Tarea no encontrada");
 }
-?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Editar Tarea</title>
-    <link rel="stylesheet" href="styles.css">
-
-    <style>
-        .card {
-            max-width: 500px;
-            margin: auto;
-            animation: fadeIn .5s ease;
-        }
-        h2 {
-            text-align: center;
-            color: #4F8BF9;
-        }
-    </style>
-</head>
-
-<body>
-
-<div class="card">
-    <h2>Editar Tarea</h2>
-
-    <form action="" method="POST">
-        <input type="text" name="titulo" value="<?= htmlspecialchars($tarea['titulo']) ?>" required>
-        <textarea name="descripcion" rows="4"><?= htmlspecialchars($tarea['descripcion']) ?></textarea>
-        <button type="submit">Actualizar</button>
-    </form>
-</div>
-
-</body>
-</html>
-
-<?php
-// Si el usuario envía el formulario
+// Si se envió el formulario
 if ($_POST) {
-    $titulo = $_POST['titulo'];
-    $descripcion = $_POST['descripcion'];
+    $titulo = $_POST["titulo"];
+    $descripcion = $_POST["descripcion"];
+    $fecha = $_POST["fecha"];
+    $completado = isset($_POST["completado"]) ? true : false;
 
-    $update = $conn->prepare("
+    $stmt = $conn->prepare("
         UPDATE tareas 
-        SET titulo = :t, descripcion = :d 
+        SET titulo = :t, descripcion = :d, fecha = :f, completado = :c
         WHERE id = :id
     ");
 
-    $update->bindParam(":t", $titulo);
-    $update->bindParam(":d", $descripcion);
-    $update->bindParam(":id", $id);
+    $stmt->bindParam(":t", $titulo);
+    $stmt->bindParam(":d", $descripcion);
+    $stmt->bindParam(":f", $fecha);
+    $stmt->bindParam(":c", $completado, PDO::PARAM_BOOL);
+    $stmt->bindParam(":id", $id);
 
-    if ($update->execute()) {
-        echo "<script>alert('Tarea actualizada'); window.location='index.php';</script>";
+    if ($stmt->execute()) {
+        header("Location: index.php");
+        exit;
     }
 }
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Tarea</title>
+</head>
+<body>
+
+<h1>Editar Tarea</h1>
+
+<form method="POST">
+    <input type="text" name="titulo" value="<?= $tarea['titulo'] ?>" required><br><br>
+    <textarea name="descripcion"><?= $tarea['descripcion'] ?></textarea><br><br>
+    <input type="date" name="fecha" value="<?= $tarea['fecha'] ?>" required><br><br>
+
+    <label>
+        <input type="checkbox" name="completado" <?= $tarea['completado'] ? 'checked' : '' ?>>
+        Completado
+    </label><br><br>
+
+    <button type="submit">Guardar Cambios</button>
+</form>
+
+</body>
+</html>
